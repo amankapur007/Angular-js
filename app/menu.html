@@ -28,20 +28,28 @@
     <div class="container">
         <div class="row row-content" ng-controller="menuController as menuCTRL">
             <div class="col-xs-12">
-              <ul class="media-list">
-              <li class="media" ng-repeat="dish in menuCTRL.dishes">
+              <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                  <li role="presentation" ng-class="{active:menuCTRL.isSelected(1)}"><a  ng-click="menuCTRL.select(1)" aria-controls="all menu" role="tab" data-toggle="tab">All Menu</a></li>
+                  <li role="presentation" ng-class="{active:menuCTRL.isSelected(2)}"><a  ng-click="menuCTRL.select(2)" aria-controls="appetizer" role="tab" data-toggle="tab">Appetizers</a></li>
+                  <li role="presentation" ng-class="{active:menuCTRL.isSelected(3)}"><a ng-click="menuCTRL.select(3)" aria-controls="mains" role="tab" data-toggle="tab">Mains</a></li>
+                  <li role="presentation"  ng-class="{active:menuCTRL.isSelected(4)}"><a ng-click="menuCTRL.select(4)" aria-controls="desserts" role="tab" data-toggle="tab">Desserts</a></li>
+                </ul>
+<div class="tab-content">
+
+
+              <ul class="media-list tab-pane fade in active">
+              <li class="media" ng-repeat="dish in menuCTRL.dishes | filter : {category : menuCTRL.filterTxt} ">
   <div class="media-left media-middle">
     <a href="#">
       <img class="media-object img-thumbnail" src="{{dish.image}}" alt="{{dish.name}}">
     </a>
   </div>
   <div class="media-body">
-    <h2 class="media-heading">{{dish.name}} <span class="label label-danger label-xs">{{dish.label}}</span> <span class="badge">{{dish.price | currency}}</span></h2>
+    <h2 class="media-heading">{{dish.name}} <span class="label label-danger label-xs">{{dish.label}}</span> <span class="badge">{{dish.price | currency }}</span></h2>
     <p>{{dish.description}}</p>
-    <p>Comment : {{dish.comment}}</p>
-    Type your comment : <input type="text" name="comment" ng-model="dish.comment">
   </div>
-</li></ul>
+</li></ul></div>
             </div>
         </div>
     </div>
@@ -52,6 +60,8 @@
   var app = angular.module("conFusionApp",[]);
 
   app.controller('menuController',function(){
+    this.tab = 1;
+    this.filterTxt = "";
     dishes=[
                      {
                        name:'Uthapizza',
@@ -91,6 +101,29 @@
                     }
                   ];
                   this.dishes = dishes;
+                  this.select = function(setTab){
+                    this.tab = setTab;
+                    if (setTab === 2)
+                    {
+                       this.filterTxt = "appetizer";
+                    }
+                    else if(setTab === 3)
+                    {
+                      this.filterTxt = "mains";
+                    }
+                    else if(setTab === 4)
+                    {
+                      this.filterTxt = "dessert";
+                    }
+                    else {
+                      {
+                        this.filterTxt = "";
+                      }
+                    }
+                  }
+                  this.isSelected = function(checkedTab){
+                    return (this.tab === checkedTab);
+                  }
   })
 </script>
 </body>
