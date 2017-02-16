@@ -1,0 +1,100 @@
+npm install -g grunt-cli
+npm init
+
+Note : name has to be lowercase
+
+npm install  -S grunt
+
+so if u want change the name
+
+npm install  -S grunt
+
+Now you can check that in package.json --> "dependencies": {
+  "grunt": "^1.0.1"
+} is there .
+
+In node_modules there would be grunt .
+
+Create Gruntfile.js
+
+module.exports = function(grunt){
+  grunt.registerTask('speak',function(){
+    console.log("I am speaking");
+  });
+}
+
+grunt speak
+
+I am speaking
+
+module.exports = function(grunt){
+  grunt.registerTask('speak',function(){
+    console.log("I am speaking");
+  });
+  grunt.registerTask('yell',function(){
+    console.log("I am yelling");
+  });
+  grunt.registerTask('both',['speak','yell']);
+}
+
+grunt both
+
+I am speaking
+
+I am yelling
+
+Replace both with 'default'
+
+grunt
+
+I am speaking
+
+I am yelling
+
+npm install grunt-contrib-concat --save-dev
+
+grunt.loadNpmTasks('grunt-contrib-concat');
+
+above that add following
+
+/ Project configuration.
+grunt.initConfig({
+  concat: {
+    options: {
+      separator: ';',
+    },
+    dist: {
+      src: ['src/intro.js', 'src/project.js', 'src/outro.js'],
+      dest: 'dist/built.js',
+    },
+  },
+});
+
+Remove
+options: {
+  separator: ';',
+}, from it
+
+Lets make two file's 1 and 2 for js in scripts and css in styles.
+
+module.exports = function(grunt){
+
+  // Project configuration.
+grunt.initConfig({
+  concat: {
+    js: {
+      src: ['app/scripts/1.js', 'app/scripts/2.js'],
+      dest: 'dist/scripts/build.js',
+    },
+    css:{
+      src: ['app/styles/1.css', 'app/styles/2.css'],
+      dest: 'dist/styles/build.css',
+    }
+  },
+});
+  grunt.loadNpmTasks('grunt-contrib-concat');
+
+
+}
+
+grunt concat

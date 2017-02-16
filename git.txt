@@ -1,0 +1,19 @@
+git branch <new_branch> --> for new branch
+
+git checkout <new_branch> --> go to the new_branch
+
+git branch -d <new_branch>  --> delete the new_branch
+
+git add . --> to add the new files
+
+git commit -a --> to commit your changes
+
+git push --> to push your changes to repository
+
+git pull -->to pull
+
+git push origin <branch_name> --> to push
+
+git status --> to get the status of ur work
+
+git log --> last commit message's
