@@ -2,18 +2,24 @@ module.exports = function(grunt){
 
   // Project configuration.
 grunt.initConfig({
+
   concat: {
-    js: {
-      src: ['app/scripts/1.js', 'app/scripts/2.js'],
-      dest: 'dist/scripts/build.js',
-    },
-    css:{
-      src: ['app/styles/1.css', 'app/styles/2.css'],
-      dest: 'dist/styles/build.css',
+     dist: {
+       src: ['app/scripts/app.js'],
+       dest: 'app/js/appbundle.js',
+     }
+   },
+
+  uglify: {
+  my_target: {
+    files: {
+      'app/dist/app.min.js': ['app/js/appbundle.js']
     }
+  }
   },
 });
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
-
+  grunt.registerTask('default',['concat','uglify']);
 
 }
