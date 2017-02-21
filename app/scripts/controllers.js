@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
 angular.module('confusionApp')
 
-        .controller('MenuController', ['$scope','menuFactory', function($scope,menuFactory) {
+    .controller('MenuController', ['$scope', 'menuFactory', function($scope, menuFactory) {
 
             $scope.tab = 1;
             $scope.filtText = '';
             $scope.showDetails = false;
-            $scope.aman ="";
-            $scope.dishes = menuFactory.getDishes();
+
+            $scope.dishes= menuFactory.getDishes();
 
             $scope.select = function(setTab) {
                 $scope.tab = setTab;
@@ -37,7 +37,6 @@ angular.module('confusionApp')
         }])
 
         .controller('ContactController', ['$scope', function($scope) {
-
             $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
 
             var channels = [{value:"tel", label:"Tel."}, {value:"Email",label:"Email"}];
@@ -52,14 +51,14 @@ angular.module('confusionApp')
             $scope.sendFeedback = function() {
 
                 console.log($scope.feedback);
-
                 if ($scope.feedback.agree && ($scope.feedback.mychannel == "")) {
                     $scope.invalidChannelSelection = true;
                     console.log('incorrect');
                 }
                 else {
                     $scope.invalidChannelSelection = false;
-                    $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
+                    $scope.feedback = {mychannel:"", firstName:"", lastName:"",
+                                       agree:false, email:"" };
                     $scope.feedback.mychannel="";
                     $scope.feedbackForm.$setPristine();
                     console.log($scope.feedback);
@@ -67,46 +66,21 @@ angular.module('confusionApp')
             };
         }])
 
-        .controller('DishDetailController', ['$scope','menuFactory', function($scope,menuFactory) {
+        .controller('DishDetailController', ['$scope', '$routeParams', 'menuFactory', function($scope, $routeParams, menuFactory) {
 
-            var dish=menuFactory.getDish(1);
-
-            $scope.dish = dish;
+            var dish= menuFactory.getDish(parseInt($routeParams.id, 10));
+            $scope.dish = dish
 
         }])
 
         .controller('DishCommentController', ['$scope', function($scope) {
 
-            $scope.name = '';
-            $scope.rating = 5;
-            $scope.comment = '';
-            $scope.date = new Date().toISOString();
-
-            //Step 1: Create a JavaScript object to hold the comment from the form
+            $scope.newComment = {author: "", rating: 5, comment: "", date:""};
 
             $scope.submitComment = function () {
-
-                //Step 2: This is how you record the date
-                // "The date property of your JavaScript object holding the comment" = new Date().toISOString();
-              $scope.date = new Date().toISOString();
-
-                // Step 3: Push your comment into the dish's comment array
-                //$scope.dish.comments.push("Your JavaScript Object holding the comment");
-                $scope.dish.comments.push({
-                  author: $scope.name,
-                  rating: $scope.rating,
-                  comment: $scope.comment,
-                  date: $scope.date
-                });
-
-                //Step 4: reset your form to pristine
-                $scope.name = '';
-                $scope.rating = 5;
-                $scope.comment = '';
+                $scope.newComment.date = new Date().toISOString();
+                $scope.dish.comments.push($scope.newComment);
                 $scope.commentForm.$setPristine();
-
-                //Step 5: reset your JavaScript object that holds your comment
+                $scope.newComment = {author: "", rating: 5, comment: "", date:""};
             }
-        }])
-
-;
+        }]);
