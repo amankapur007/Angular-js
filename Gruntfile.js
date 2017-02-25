@@ -12,6 +12,11 @@ grunt.initConfig({
   usemin: {
     html: ['build/index.html'],
   },
+  uglify: {
+    options: {
+      mangle: false
+    },
+  },
 
 copy: {
   main: {
