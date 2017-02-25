@@ -3,60 +3,47 @@ module.exports = function(grunt){
   // Project configuration.
 grunt.initConfig({
 
-  concat: {
-     app: {
-       src: ['app/scripts/app.js'],
-       dest: 'app/js/appbundle.js',
-     },
-     controller: {
-       src: ['app/scripts/controllers.js'],
-       dest: 'app/js/controllersbundle.js',
-     },
-     service: {
-       src: ['app/scripts/services.js'],
-       dest: 'app/js/servicesbundle.js',
-     }
-   },
-
-  uglify: {
+  useminPrepare: {
+    html: 'app/index.html',
     options: {
-     mangle: false
-   },
-  my_target: {
-    
-    files: [{
-      'app/dist/app.min.js': ['app/js/appbundle.js']
-    },{
-      'app/dist/controller.min.js': ['app/js/controllersbundle.js']
-    },{
-      'app/dist/service.min.js': ['app/js/servicesbundle.js']
+      dest: 'build',
     }
-  ]
-  }
   },
-  filerev: {
-    options: {
-      algorithm: 'md5',
-      length: 8
-    },
-    appbundle: {
-      src: 'app/dist/app.min.js',
-      dest : 'app/dist_min/'
-    },
-    controllerbundle: {
-      src: 'app/dist/controller.min.js',
-      dest : 'app/dist_min/'
-    },
-    servicebundle: {
-      src: 'app/dist/service.min.js',
-      dest : 'app/dist_min/'
-    }
-  }
+  usemin: {
+    html: ['build/index.html'],
+  },
+
+copy: {
+  main: {
+    files: [
+      {src: ['app/index.html'], dest: 'build/index.html'},
+
+      // includes files within path
+      {expand: true, cwd:'app/views', src: ['**/*.html'], dest: 'build/views/'},
+
+      // includes files within path and its sub-directories
+      {expand: true, cwd:'app/images', src: ['**/*.png'], dest: 'build/images/'},
+
+      // makes all src relative to cwd
+      {expand: true, cwd:'app/fonts', src: ['**/*'], dest: 'build/fonts/'},
+
+    ],
+  },
+}
+
 });
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-filerev');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-usemin');
 
-  grunt.registerTask('default',['concat','uglify','filerev']);
-
+  grunt.registerTask('build', [
+    'copy:main',
+    'useminPrepare',
+    'concat:generated',
+    'cssmin:generated',
+    'uglify:generated',
+    'usemin'
+  ]);
 }
