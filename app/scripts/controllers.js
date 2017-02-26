@@ -7,9 +7,7 @@
               $scope.filtText = '';
               $scope.showDetails = false;
               $scope.dishes= []
-              menuFactory.getDishes().then(function(response){
-                $scope.dishes = response.data;
-              })
+              $scope.dishes = menuFactory.getDishes().query();
 
               $scope.select = function(setTab) {
                   $scope.tab = setTab;
@@ -69,11 +67,7 @@
 
           .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
 
-              menuFactory.getDish(parseInt($stateParams.id, 10)).then(function(response){
-              $scope.dish = response.data;
-              $scope.showDish=true;
-              });
-
+            $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)});
 
           }])
 

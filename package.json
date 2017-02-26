@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/amankapur007/Angular-js#readme",
   "dependencies": {
+    "angular-ui-router": "^0.4.2",
     "grunt": "^1.0.1"
   },
   "devDependencies": {
